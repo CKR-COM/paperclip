@@ -1,4 +1,5 @@
 export { execute } from "./execute.js";
+export { listQwenSkills, syncQwenSkills } from "./skills.js";
 export { testEnvironment } from "./test.js";
 export {
   parseQwenStreamJson,
@@ -10,6 +11,7 @@ export {
 import type { AdapterSessionCodec, ServerAdapterModule } from "@paperclipai/adapter-utils";
 import { type, models, agentConfigurationDoc } from "../index.js";
 import { execute } from "./execute.js";
+import { listQwenSkills, syncQwenSkills } from "./skills.js";
 import { testEnvironment } from "./test.js";
 
 function readNonEmptyString(value: unknown): string | null {
@@ -66,6 +68,8 @@ export function createServerAdapter(): ServerAdapterModule {
   return {
     type,
     execute,
+    listSkills: listQwenSkills,
+    syncSkills: syncQwenSkills,
     testEnvironment,
     sessionCodec,
     models,
