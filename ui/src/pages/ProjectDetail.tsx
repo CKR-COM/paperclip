@@ -224,7 +224,7 @@ function ProjectWorkspacesContent({
   projectId: string;
   projectRef: string;
   summaries: ReturnType<typeof buildProjectWorkspaceSummaries>;
-  projectWorkspaces: Array<{ id: string; name: string; isPrimary: boolean; cwd?: string | null; repoUrl?: string | null }>;
+  projectWorkspaces: Array<{ id: string; name: string; description?: string | null; isPrimary: boolean; cwd?: string | null; repoUrl?: string | null }>;
 }) {
   const queryClient = useQueryClient();
   const [runtimeActionKey, setRuntimeActionKey] = useState<string | null>(null);
@@ -349,6 +349,7 @@ function ProjectWorkspacesContent({
     id: w.id,
     href: projectWorkspaceUrl({ id: projectRef, urlKey: projectRef }, w.id),
     name: w.name,
+    description: w.description,
     isPrimary: w.isPrimary,
     cwd: w.cwd,
     repoUrl: w.repoUrl,

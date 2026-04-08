@@ -26,6 +26,7 @@ export function NewWorkspaceDialog({
   primaryWorkspaceId,
 }: NewWorkspaceDialogProps) {
   const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
   const [mode, setMode] = useState<"local" | "repo" | null>(null);
   const [cwd, setCwd] = useState("");
   const [repoUrl, setRepoUrl] = useState("");
@@ -45,6 +46,7 @@ export function NewWorkspaceDialog({
 
   function reset() {
     setName("");
+    setDescription("");
     setMode(null);
     setCwd("");
     setRepoUrl("");
@@ -66,6 +68,7 @@ export function NewWorkspaceDialog({
       }
       createWorkspace.mutate({
         name: trimmedName,
+        description: description.trim() || null,
         cwd: trimmedCwd,
         isPrimary: false,
       });
@@ -77,6 +80,7 @@ export function NewWorkspaceDialog({
       }
       createWorkspace.mutate({
         name: trimmedName,
+        description: description.trim() || null,
         repoUrl: trimmedRepo,
         isPrimary: false,
       });
@@ -116,6 +120,17 @@ export function NewWorkspaceDialog({
               }
             }}
             autoFocus
+          />
+        </div>
+
+        {/* Description */}
+        <div className="px-4 pb-2">
+          <textarea
+            className="w-full rounded-md border border-border bg-transparent px-3 py-2 text-sm outline-none focus:border-ring placeholder:text-muted-foreground/50 resize-none"
+            placeholder="Describe what this workspace is for (e.g. API server, customer mobile app)"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={2}
           />
         </div>
 

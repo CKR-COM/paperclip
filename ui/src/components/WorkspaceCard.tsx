@@ -11,6 +11,7 @@ export interface WorkspaceCardProps {
   key: string;
   href: string;
   name: string;
+  description?: string | null;
   isPrimary: boolean;
   cwd?: string | null;
   repoUrl?: string | null;
@@ -52,6 +53,7 @@ export function WorkspaceCard({
   id,
   href,
   name,
+  description,
   isPrimary,
   cwd,
   repoUrl,
@@ -137,6 +139,13 @@ export function WorkspaceCard({
           )}
         </div>
       </div>
+
+      {/* Description */}
+      {description && (
+        <div className="mt-1 text-xs text-muted-foreground line-clamp-2">
+          {description}
+        </div>
+      )}
 
       {/* Metadata lines */}
       {(cwd || repoUrl || branchName) && (

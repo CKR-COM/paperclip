@@ -141,6 +141,7 @@ function toWorkspace(
     companyId: row.companyId,
     projectId: row.projectId,
     name: row.name,
+    description: row.description ?? null,
     sourceType: row.sourceType as ProjectWorkspace["sourceType"],
     cwd: normalizeWorkspaceCwd(row.cwd),
     repoUrl: row.repoUrl ?? null,
