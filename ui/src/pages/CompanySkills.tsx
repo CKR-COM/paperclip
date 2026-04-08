@@ -575,7 +575,7 @@ function SkillPane({
           ) : (
             <div className="text-sm text-muted-foreground">{detail.editableReason}</div>
           )}
-          {onDelete && (
+          {onDelete && detail.sourceBadge !== "paperclip" && (
             <button
               className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-destructive transition-colors"
               onClick={onDelete}
