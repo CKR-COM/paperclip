@@ -48,6 +48,7 @@ import {
   Loader2,
   ListTree,
   X,
+  Check,
 } from "lucide-react";
 import { cn } from "../lib/utils";
 import { extractProviderIdWithFallback } from "../lib/model-utils";
@@ -333,7 +334,11 @@ export function NewIssueDialog() {
     enabled: !!projectId && newIssueOpen,
   });
   const workspaceOptions = useMemo(
-    () => (projectWorkspaces?.workspaces ?? []).map((w) => ({ id: w.id, label: w.name, isPrimary: w.isPrimary })),
+    () => (projectWorkspaces?.workspaces ?? []).map((w) => ({
+      id: w.id,
+      label: w.isPrimary ? `★ ${w.name}` : w.name,
+      searchText: w.description ?? undefined,
+    })),
     [projectWorkspaces?.workspaces],
   );
 
@@ -1168,20 +1173,28 @@ export function NewIssueDialog() {
               {workspaceOptions.length > 1 && (
                 <>
                   <span>→</span>
-                  <select
-                    className="inline-flex min-w-0 items-center appearance-none rounded-md border border-border bg-muted/40 px-2 py-1 text-sm font-medium text-foreground outline-none hover:bg-accent/50 transition-colors"
+                  <InlineEntitySelector
                     value={projectWorkspaceId}
-                    onChange={(e) => {
-                      setProjectWorkspaceId(e.target.value);
+                    options={workspaceOptions}
+                    placeholder="Workspace"
+                    disablePortal
+                    noneLabel="Default workspace"
+                    searchPlaceholder="Search workspaces..."
+                    emptyMessage="No workspaces found."
+                    onChange={(id) => {
+                      setProjectWorkspaceId(id);
                       setSelectedExecutionWorkspaceId("");
                     }}
-                  >
-                    {workspaceOptions.map((opt) => (
-                      <option key={opt.id} value={opt.id}>
-                        {opt.isPrimary ? "★ " : ""}{opt.label}
-                      </option>
-                    ))}
-                  </select>
+                    renderTriggerValue={(option) => (
+                      <span className="truncate">{option?.label ?? "Workspace"}</span>
+                    )}
+                    renderOption={(option, isSelected) => (
+                      <>
+                        <span className="truncate">{option.label}</span>
+                        {isSelected && <Check className="ml-auto h-3.5 w-3.5 shrink-0 text-muted-foreground" />}
+                      </>
+                    )}
+                  />
                 </>
               )}
             </div>
